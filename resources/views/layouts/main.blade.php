@@ -13,6 +13,8 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
 
+    <link rel="stylesheet" href="css/style.css">
+
 
     <title>Hello, world!</title>
 </head>
@@ -23,7 +25,7 @@
             @include('layouts.sidebar')
             <div class="col p-0">
                 @include('layouts.navbar')
-                <div class="container min-vh-100 p-0 ps-3 overflow-hidden">
+                <div class="container min-vh-100">
                     @yield('content')
                 </div>
             </div>

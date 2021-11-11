@@ -4,8 +4,8 @@
 <div class="row mt-4">
     <div class="col-12">
         <div class="container p-0">
-            <div class="row d-block">
-                <div class="col-3 ms-auto pe-4">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 ms-auto pe-4">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         <i class="bi bi-plus-circle"></i> Tambah Kegiatan
                     </button>
@@ -15,7 +15,7 @@
                 <div class="col">
                     <h4 class="h4 fw-normal text-secondary"><b>List Kegiatan Kepanitiaan</b></h4>
                 </div>
-                <div class="col-3 ms-auto">
+                <div class="col-md-3 ms-auto">
                     <form class="d-flex">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
@@ -23,10 +23,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-10">
+                <div class="col-md-10">
                     <div class="row">
                         @foreach ($kegiatans as $kegiatan)
-                        <div class="col-sm-4 mt-2">
+                        <div class="col-md-4 mt-2">
                             <div class="card text-white bg-danger">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $kegiatan->nama_kegiatan }}</h5>

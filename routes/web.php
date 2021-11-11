@@ -35,14 +35,36 @@ Route::get('/dashboard',function () {
     ]);
 })->middleware('auth');
 
-Route::get('/tester',function () {
-    return view('layouts.main');
-});
-
 Route::get('/listkegiatan',function () {
     return view('kegiatans.listkegiatan',[
         'kegiatans' => Kegiatan::all()
-    ]);
+        ]);
+    });
+    
+Route::resource('/kegiatans', UserKegiatanController::class);
+
+// development
+    
+Route::get('/rekrut',function () {
+    return view('kegiatans.rekrutmen');
 });
 
-Route::resource('/kegiatans', UserKegiatanController::class);
+Route::get('/detil',function () {
+    return view('kegiatans.detilkegiatan');
+});
+
+Route::get('/agenda',function () {
+    return view('kegiatans.agenda');
+});
+
+Route::get('/tugas',function () {
+    return view('kegiatans.tugas');
+});
+
+Route::get('/tugaskelola',function () {
+    return view('kegiatans.kelolatugas');
+});
+
+Route::get('/struktur',function () {
+    return view('kegiatans.struktur');
+});

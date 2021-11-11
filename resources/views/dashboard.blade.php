@@ -3,25 +3,22 @@
 
 <div class="row mt-4">
     <div class="col-12 p-0">
-        <div class="container pe-0">
-
-            <h4 class="h4 fw-normal text-secondary"><b>Kegiatan Kepanitiaan yang Diikuti</b></h4>
-            <div class="row glide me-0">
-                <div class="col-10 glide__track" data-glide-el="track">
-                    <ul class="row glide__slides">
+        <h4 class="h4 fw-normal text-secondary text-wrap"><b>Kegiatan Kepanitiaan yang Diikuti</b></h4>
+        <div class="row me-0">
+            <div class="col-10 glide" >
+                <div class="container-sm glide__track" data-glide-el="track">
+                    <div class="glide__slides">
                         @foreach ($kegiatans as $kegiatan)
-                        <div class="col-sm-4 mt-2 glide__slide">
-                            <div class="card text-white bg-danger">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $kegiatan->nama_kegiatan }}</h5>
-                                    <p class="card-text">{{ $kegiatan->deskripsi_kegiatan }}</p>
-                                    <p><small>Oleh : {{ $kegiatan->penyelenggara }}</small></p>
-                                    <a href="#" class="btn btn-primary">Kelola</a>
-                                </div>
+                        <div class="card text-white bg-danger glide__slide h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $kegiatan->nama_kegiatan }}</h5>
+                                <p class="card-text">{{ $kegiatan->deskripsi_kegiatan }}</p>
+                                <p><small>Oleh : {{ $kegiatan->penyelenggara }}</small></p>
+                                <a href="#" class="btn btn-primary">Kelola</a>
                             </div>
                         </div>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
                 <div class="glide__arrows" data-glide-el="controls">
                     <button class="glide__arrow glide__arrow--right btn btn-outline-dark rounded"
@@ -29,6 +26,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
 </div>
@@ -60,7 +58,7 @@
         startAt: 0,
         perView: 2.5,
         breakpoints: {
-            800: {
+            560: {
             perView: 1
             }
         }

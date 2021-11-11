@@ -18,11 +18,11 @@
                         class="ms-1 d-none d-sm-inline">Kegiatan</span> </a>
                 <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                     <li class="w-100">
-                        <a href="/listkegiatan" class="nav-link text-white px-0"> <span class="d-none d-sm-inline">List</span> <i class="bi bi-body-text"></i>
+                        <a href="/listkegiatan" class="nav-link text-secondary px-0"> <span class="d-none d-sm-inline">List</span> <i class="bi bi-body-text"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-white px-0"> <span class="d-none d-sm-inline">Diikuti</span> <i class="bi bi-bookmark-plus"></i>
+                        <a href="#" class="nav-link text-secondary px-0"> <span class="d-none d-sm-inline">Diikuti</span> <i class="bi bi-bookmark-plus"></i>
                         </a>
                     </li>
                 </ul>
