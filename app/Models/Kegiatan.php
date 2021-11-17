@@ -9,4 +9,18 @@ class Kegiatan extends Model
 {
     use HasFactory;
     protected $guarded=['id'];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function agendas(){
+        return $this->hasMany(Agenda::class);
+    }
+
+    public function sies(){
+        return $this->hasMany(Sie::class);
+    }
+
+
 }
