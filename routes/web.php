@@ -68,3 +68,5 @@ Route::get('/tugaskelola',function () {
 Route::get('/struktur',function () {
     return view('kegiatans.struktur');
 });
+
+// test
