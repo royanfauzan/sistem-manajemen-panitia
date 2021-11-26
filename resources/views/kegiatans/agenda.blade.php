@@ -5,7 +5,7 @@
     <div class="col">
         <div class="row pe-4 mt-3">
             <div class="col">
-                <h4 class="h4 fw-normal text-secondary"><b>Agenda Kegiatan</b></h4>
+                <h4 class="h4 fw-normal text-secondary"><b>Agenda {{ $kegiatan->nama_kegiatan }}</b></h4>
             </div>
             <div class="col-md-3 ms-auto">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -15,72 +15,43 @@
         </div>
         <div class="row mt-3 me-5 p-4">
             <div class="col">
-                <div class="row mt-3">
-                    <div class="card">
-                        <div class="card-body teks-kecil">
-                            <h5 class="h5 fw-normal text-secondary"><b>Nama Agenda1</b></h5>
-                            
-                            <div class="mb-3 ms-3 row">
-                                <label for="inputNim" class="col-4 col-form-label">Deskripsi</label>
-                                <div class="col-7">
-                                    <textarea type="nim" name="nim" class="form-control-plaintext">: Deskripsi Agenda1</textarea>
+                @foreach ($agendas as $agenda)                    
+                    <div class="row mt-3">
+                        <div class="card">
+                            <div class="card-body teks-kecil">
+                                <h5 class="h5 fw-normal text-secondary"><b>{{ $agenda->nama_agenda }}</b></h5>
+                                
+                                <div class="mb-3 ms-3 row">
+                                    <label for="inputNim" class="col-4 col-form-label">Deskripsi</label>
+                                    <div class="col-7">
+                                        <textarea type="nim" name="nim" class="form-control-plaintext">: {{ $agenda->deskripsi_agenda }}</textarea>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="mb-3 ms-3 row">
-                                <label for="inputNim" class="col-4 col-form-label">Dilaksanakan pada</label>
-                                <div class="col-7">
-                                    <input type="nim" name="nim" class="form-control-plaintext"
-                                        value=": tanggal">
+                                <div class="mb-3 ms-3 row">
+                                    <label for="inputNim" class="col-4 col-form-label">Dilaksanakan pada</label>
+                                    <div class="col-7">
+                                        <input type="text" name="nim" class="form-control-plaintext"
+                                            value=": (Mulai) {{ $agenda->tanggal_mulai }}">
+                                        <input type="text" name="nim" class="form-control-plaintext"
+                                            value=": (Selesai) {{ $agenda->tanggal_selesai }}">
+                                    </div>
+                                </div>    
+        
+                                <div class="mb-3 ms-3 row">
+                                    <label for="inputNim" class="col-4 col-form-label">Lokasi</label>
+                                    <div class="col-7">
+                                        <input type="nim" name="nim" class="form-control-plaintext" value=": {{ $agenda->lokasi }}">
+                                    </div>
                                 </div>
-                            </div>    
-    
-                            <div class="mb-3 ms-3 row">
-                                <label for="inputNim" class="col-4 col-form-label">Lokasi</label>
-                                <div class="col-7">
-                                    <input type="nim" name="nim" class="form-control-plaintext" value=": tempat">
+        
+                                <div class="mb-3 ms-3 row justify-content-end">
+                                    <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal2">Ubah Detil</button>
                                 </div>
-                            </div>
-    
-                            <div class="mb-3 ms-3 row justify-content-end">
-                                <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal2">Ubah Detil</button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="card">
-                        <div class="card-body teks-kecil">
-                            <h5 class="h5 fw-normal text-secondary"><b>Nama Agenda2</b></h5>
-                            
-                            <div class="mb-3 ms-3 row">
-                                <label for="inputNim" class="col-4 col-form-label">Deskripsi</label>
-                                <div class="col-7">
-                                    <textarea type="nim" name="nim" class="form-control-plaintext">: Deskripsi Agenda2</textarea>
-                                </div>
-                            </div>
-                            <div class="mb-3 ms-3 row">
-                                <label for="inputNim" class="col-4 col-form-label">Dilaksanakan pada</label>
-                                <div class="col-7">
-                                    <input type="nim" name="nim" class="form-control-plaintext"
-                                        value=": tanggal">
-                                </div>
-                            </div>   
-    
-                            <div class="mb-3 ms-3 row">
-                                <label for="inputNim" class="col-4 col-form-label">Lokasi</label>
-                                <div class="col-7">
-                                    <input type="nim" name="nim" class="form-control-plaintext" value=": tempat">
-                                </div>
-                            </div>
-    
-                            <div class="mb-3 ms-3 row justify-content-end">
-                                <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal2">Ubah Detil</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -92,28 +63,27 @@
         <div class="modal-content">
             <div class="modal-header text-center justify-content-center">
                 <h5 class="h5 text-center" id="exampleModalLabel">Tambah Agenda</h5>
-
             </div>
             <form action="#" method="POST">
                 @csrf
                 <div class="modal-body teks-kecil">
                     <div class="mb-3">
-                        <label for="namaKegiatan" class="form-label @error('nama_kegiatan') is-invalid @enderror">Nama
+                        <label for="namaagenda" class="form-label @error('nama_agenda') is-invalid @enderror">Nama
                             Agenda</label>
-                        <input type="text" class="form-control" id="namaKegiatan" name="nama_kegiatan">
-                        @error('nama_kegiatan')
+                        <input type="text" class="form-control" id="namaagenda" name="nama_agenda">
+                        @error('nama_agenda')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="deskripsi_kegiatan"
-                            class="form-label @error('deskripsi_kegiatan') is-invalid @enderror">Deskripsi_kegiatan</label>
-                        <textarea type="text" class="form-control" id="deskripsi_kegiatan"
-                            name="deskripsi_kegiatan"></textarea>
+                        <label for="deskripsi_agenda"
+                            class="form-label @error('deskripsi_agenda') is-invalid @enderror">Deskripsi_agenda</label>
+                        <textarea type="text" class="form-control" id="deskripsi_agenda"
+                            name="deskripsi_agenda"></textarea>
                     </div>
-                    @error('deskripsi_kegiatan')
+                    @error('deskripsi_agenda')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -121,10 +91,10 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Mulai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
+                                <label for="tanggal_mulai"
+                                    class="form-label @error('tanggal_mulai') is-invalid @enderror">Tanggal Mulai</label>
+                                <input type="datetime-local" class="form-control" id="tanggal_mulai" name="tanggal_mulai">
+                                @error('tanggal_mulai')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -133,10 +103,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Selesai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
+                                <label for="tanggal_selesai"
+                                    class="form-label @error('tanggal_selesai') is-invalid @enderror">Tanggal Selesai</label>
+                                <input type="datetime-local" class="form-control" id="tanggal_selesai" name="tanggal_selesai">
+                                @error('tanggal_selesai')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -145,10 +115,10 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="penyelenggara"
-                            class="form-label @error('penyelenggara') is-invalid @enderror">Lokasi</label>
-                        <input type="text" class="form-control" id="penyelenggara" name="penyelenggara">
-                        @error('penyelenggara')
+                        <label for="lokasi"
+                            class="form-label @error('lokasi') is-invalid @enderror">Lokasi</label>
+                        <input type="text" class="form-control" id="lokasi" name="lokasi">
+                        @error('lokasi')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -174,7 +144,7 @@
                 <h5 class="h5 text-center" id="exampleModalLabel">Tambah Agenda</h5>
 
             </div>
-            <form action="#" method="POST">
+            <form action="/listagenda" method="POST">
                 @csrf
                 <div class="modal-body teks-kecil">
                     <div class="mb-3">

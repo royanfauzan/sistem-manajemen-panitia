@@ -13,7 +13,7 @@
                         <div class="mb-3 ms-3 row">
                             <label for="inputNim" class="col-4 col-form-label">Kegiatan</label>
                             <div class="col-7">
-                                <input type="nim" name="nim" class="form-control-plaintext" value=": Nama Kegiatan">
+                                <input type="nim" name="nim" class="form-control-plaintext" value=": {{ $kegiatan->nama_kegiatan }}">
                             </div>
                         </div>
 
@@ -21,21 +21,21 @@
                             <label for="inputNim" class="col-4 col-form-label">Penyelenggara</label>
                             <div class="col-7">
                                 <input type="nim" name="nim" class="form-control-plaintext"
-                                    value=": Nama Penyelenggara">
+                                    value=": {{ $kegiatan->penyelenggara }}">
                             </div>
                         </div>
 
                         <div class="mb-3 ms-3 row">
                             <label for="inputNim" class="col-4 col-form-label">Deskripsi</label>
                             <div class="col-7">
-                                <textarea type="nim" name="nim" class="form-control-plaintext">: Deskripsi SIE</textarea>
+                                <textarea type="nim" name="nim" class="form-control-plaintext">: {{ $kegiatan->deskripsi_kegiatan }}</textarea>
                             </div>
                         </div>
 
                         <div class="mb-3 ms-3 row">
                             <label for="inputNim" class="col-4 col-form-label">File Ijin</label>
                             <div class="col-7">
-                                <input type="nim" name="nim" class="form-control-plaintext" value=": file.docx">
+                                <input type="nim" name="nim" class="form-control-plaintext" value=": {{ $kegiatan->dokumen_ijin }}">
                             </div>
                         </div>
 
@@ -60,16 +60,13 @@
                             <div class="col-4 text-center"><b>Tanggal</b></div>
                             <div class="col-2"></div>
                         </div>
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Kegiatan 1</div>
-                            <div class="col-4 text-center">Tanggal 1</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>                        
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Kegiatan 2</div>
-                            <div class="col-4 text-center">Tanggal 2</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>
+                        @foreach ($agendas as $agenda)
+                            <div class="row teks-kecil">
+                                <div class="col-5 ps-4">{{ $agenda->nama_agenda }}</div>
+                                <div class="col-4 text-center">{{ $agenda->tanggal_mulai }}</div>
+                                <div class="col-2 text-center">detil</div>
+                            </div> 
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -82,31 +79,20 @@
                         <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
                     </div>
                     <div class="card-body">
-                        <div class="row mt-2">
-                            <div class="col-5"><b>SIE 1</b></div>
-                            <div class="col-4 text-center"><b>Status</b></div>
-                            <div class="col-2"></div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Tugas 1</div>
-                            <div class="col-4 text-center">Status Tugas 1</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Tugas 2</div>
-                            <div class="col-4 text-center">Status Tugas 2</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col-5"><b>SIE 2</b></div>
-                            <div class="col-4 text-center"><b>Status</b></div>
-                            <div class="col-2"></div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Tugas 1</div>
-                            <div class="col-4 text-center">Status Tugas 1</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>
+                        @foreach ($kegiatantgs->sies as $sie)                            
+                            <div class="row mt-2">
+                                <div class="col-5"><b>{{ $sie->nama_sie }}</b></div>
+                                <div class="col-4 text-center"><b>Status</b></div>
+                                <div class="col-2"></div>
+                            </div>
+                            @foreach ($sie->tugases as $tugas)                                
+                                <div class="row teks-kecil">
+                                    <div class="col-5 ps-4">{{ $tugas->judul }}</div>
+                                    <div class="col-4 text-center">{{ $tugas->status_tugas }}</div>
+                                    <div class="col-2 text-center">detil</div>
+                                </div>
+                            @endforeach
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -118,28 +104,19 @@
                         <span><b>Progres Pengerjaan</b></span>
                     </div>
                     <div class="card-body">
-                        <div class="row mt-2">
-                            <div class="col"><b>SIE 1</b></div>                            
-                        </div>
-                        <div class="row ms-2">
-                            <div class="progress p-0">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 10%"
-                                    aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-                                    10%
-                                </div>
+                        @foreach ($progressies as $progres)                            
+                            <div class="row mt-2">
+                                <div class="col d-flex justify-content-between"><span><b>{{ $progres->get('nama') }} |</b></span> <span>{{ $progres->get('jumlahlese') }}/{{ $progres->get('jumlahtugas') }}</span></div>                            
                             </div>
-                        </div>  
-                        <div class="row mt-2">
-                            <div class="col"><b>SIE 2</b></div>                            
-                        </div>
-                        <div class="row ms-2">
-                            <div class="progress p-0">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 90%"
-                                    aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
-                                    90%
+                            <div class="row ms-2">
+                                <div class="progress p-0">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ $progres->get('persen') }}%"
+                                        aria-valuenow="{{ $progres->get('persen') }}" aria-valuemin="0" aria-valuemax="100">
+                                        {{ $progres->get('persen') }}%
+                                    </div>
                                 </div>
-                            </div>
-                        </div>   
+                            </div>  
+                        @endforeach 
                         <div class="mb-3 ms-3 mt-4 row justify-content-end">
                             <button type="button" class="col-lg-3 col-md-4 col-sm-6 btn btn-primary me-2 teks-kecil"> Cetak progress</button>
                         </div>                    
@@ -157,6 +134,17 @@
                         <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
                     </div>
                     <div class="card-body">
+                        @foreach ($kegiatan->sies as $sie)
+                            <div class="row mt-2">
+                                <div class="col"><b>{{ $sie->nama_sie }}</b></div>
+                            </div>
+                            @foreach ($sie->menjabats as $menjabat)
+                                <div class="row teks-kecil">
+                                    <div class="col-7 ps-4">{{ $menjabat->user->nama_user }}</div>
+                                    <div class="col-5 text-center">{{ $jabatans[$menjabat->jabatan_id-1]->nama_jabatan }}</div>
+                                </div>
+                            @endforeach
+                        @endforeach
                         <div class="row mt-2">
                             <div class="col"><b>SIE 1</b></div>
                         </div>

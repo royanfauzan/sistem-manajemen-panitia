@@ -18,5 +18,9 @@ class Sie extends Model
         return $this->hasMany(Menjabat::class);
     }
 
+    public function tugases(){
+        return $this->hasMany(Tugas::class);
+    }
+
     
 }

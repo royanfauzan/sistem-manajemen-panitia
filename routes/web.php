@@ -1,10 +1,19 @@
 <?php
 
+use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MenjabatController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SieController;
+use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserKegiatanController;
+use App\Models\Agenda;
+use App\Models\Jabatan;
 use App\Models\Kegiatan;
+use App\Models\Menjabat;
+use App\Models\Tugas;
+use App\Models\Sie;
 use App\Models\User;
 
 /*
@@ -43,6 +52,14 @@ Route::get('/listkegiatan',function () {
     
 Route::resource('/kegiatans', UserKegiatanController::class);
 
+Route::resource('/listtugas', TugasController::class);
+
+Route::resource('/listagenda', AgendaController::class);
+
+Route::resource('/liststruktur', SieController::class);
+
+Route::resource('/listmenjabat', MenjabatController::class);
+
 // development
     
 Route::get('/rekrut',function () {
@@ -67,6 +84,112 @@ Route::get('/tugaskelola',function () {
 
 Route::get('/struktur',function () {
     return view('kegiatans.struktur');
+});
+
+Route::get('/test/tugas',function () {
+    return dd(Tugas::all());
+});
+
+Route::get('/test/user',function () {
+    return dd(Sie::find(1)->menjabats->user());
+});
+
+Route::get('/test/kegiatan',function () {
+    return dd(Menjabat::with(['jabatan','user'])->whereIn('sie_id',[1,2,3])->get());
+});
+
+Route::get('/test/kegiatanjauh',function () {
+    $idkegiatan=3;
+    $kegiatan=Kegiatan::with('sies.menjabats.user')->find($idkegiatan);
+    $kegiatantgs=Kegiatan::with('sies.tugases')->find($idkegiatan);
+    $jabatans=Jabatan::all();
+    $agendas=Agenda::where('kegiatan_id',$idkegiatan)->get();
+
+    return view('kegiatans.detilkegiatan',[
+        'kegiatan'=>$kegiatan,
+        'jabatans'=>$jabatans,
+        'agendas'=>$agendas,
+        'kegiatantgs'=>$kegiatantgs
+    ]);
+    // foreach ($kegiatan->sies as $sie) {
+    //     echo $sie->nama_sie;
+    //     echo '<br>';
+    //     foreach ($sie->menjabats as $menjabat) {
+    //         echo $menjabat->id;
+    //         echo '<br>';
+    //         echo $jabatans[$menjabat->jabatan_id-1]->nama_jabatan;
+    //         echo '<br>';
+    //         echo $menjabat->user->nama_user;
+    //         echo '<br>';
+    //     }
+    //     echo '<br><br>';
+    // }
+
+    // dd($kegiatan,$jabatans);
+});
+
+Route::get('/test/kegiatandev',function () {
+    $idkegiatan=3;
+    $kegiatan=Kegiatan::with('sies.menjabats.user')->find($idkegiatan);
+    $kegiatantgs=Kegiatan::with('sies.tugases')->find($idkegiatan);
+    
+    $jabatans=Jabatan::all();
+    $agendas=Agenda::where('kegiatan_id',$idkegiatan)->get();
+
+    $kegiatantgshitung=$kegiatantgs;
+
+    $counter=0;
+
+    $sietugases = array(); 
+
+    foreach($kegiatantgshitung->sies as $sie){
+        $datasie = collect();
+        $datasie->put('nama',$sie->nama_sie);
+        $jmlslese = 0;
+        
+
+        foreach($sie->tugases as $tugas){
+            if (!strcmp($tugas->status_tugas,'ditugaskan')) {
+                $jmlslese++;
+            }
+        }
+
+        $datasie->put('persen',0);
+
+        if ($sie->tugases->count()>0) {
+            $persen = (int) ($jmlslese/$sie->tugases->count())*100;
+            $datasie->put('persen',$persen);
+        }
+        
+        $datasie->put('jumlahlese',$jmlslese);
+        $datasie->put('jumlahtugas',$sie->tugases->count());
+        $sietugases[]=$datasie;
+        $counter++;
+    }
+
+
+    return view('kegiatans.detilkegiatan',[
+        'kegiatan'=>$kegiatan,
+        'jabatans'=>$jabatans,
+        'agendas'=>$agendas,
+        'kegiatantgs'=>$kegiatantgs,
+        'progressies'=>$sietugases
+    ]);
+    // foreach ($kegiatan->sies as $sie) {
+    //     echo $sie->nama_sie;
+    //     echo '<br>';
+    //     foreach ($sie->menjabats as $menjabat) {
+    //         echo $menjabat->id;
+    //         echo '<br>';
+    //         echo $jabatans[$menjabat->jabatan_id-1]->nama_jabatan;
+    //         echo '<br>';
+    //         echo $menjabat->user->nama_user;
+    //         echo '<br>';
+    //     }
+    //     echo '<br><br>';
+    // }
+
+    // dd($kegiatan,$jabatans);
 });
 
 // test

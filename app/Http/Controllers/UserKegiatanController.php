@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agenda;
+use App\Models\Jabatan;
 use App\Models\Kegiatan;
+use App\Models\Sie;
 use Illuminate\Http\Request;
 
 class UserKegiatanController extends Controller
@@ -58,7 +61,71 @@ class UserKegiatanController extends Controller
      */
     public function show(Kegiatan $kegiatan)
     {
-        //
+        $idkegiatan=$kegiatan->id;
+        $kegiatan=Kegiatan::with('sies.menjabats.user')->find($idkegiatan);
+        $kegiatantgs=Kegiatan::with('sies.tugases')->find($idkegiatan);
+
+        
+        $jabatans=Jabatan::all();
+        $agendas=Agenda::where('kegiatan_id',$idkegiatan)->get();
+        
+        $kegiatantgshitung=$kegiatantgs;
+        
+        $counter=0;
+        
+        $sietugases = array(); 
+
+
+        // $kegiatantester=Sie::with('tugases')->whereHas('tugases',
+        // function($q){
+        //     $q->where('status_tugas','selesai');
+        // }
+        // )->where('kegiatan_id',$idkegiatan)->get();
+
+
+
+        // dd($kegiatantester);
+
+
+        // $testfilter = $kegiatantgs->sies[1]->tugases->filter(function($tugas){
+        //     return !strcmp($tugas->status_tugas,'selesai');
+        // });
+
+        // dd($testfilter);
+
+        foreach($kegiatantgshitung->sies as $sie){
+            $datasie = collect();
+            $datasie->put('nama',$sie->nama_sie);
+            $jmlslese = 0;
+            
+
+            foreach($sie->tugases as $tugas){
+                if (!strcmp($tugas->status_tugas,'selesai')) {
+                    $jmlslese++;
+                }
+            }
+
+            $datasie->put('persen',0);
+
+            if ($sie->tugases->count()>0) {
+                $persen = (int) ($jmlslese/$sie->tugases->count())*100;
+                $datasie->put('persen',$persen);
+            }
+            
+            $datasie->put('jumlahlese',$jmlslese);
+            $datasie->put('jumlahtugas',$sie->tugases->count());
+            $sietugases[]=$datasie;
+            $counter++;
+        }
+
+
+        return view('kegiatans.detilkegiatan',[
+            'kegiatan'=>$kegiatan,
+            'jabatans'=>$jabatans,
+            'agendas'=>$agendas,
+            'kegiatantgs'=>$kegiatantgs,
+            'progressies'=>$sietugases
+        ]);
     }
 
     /**
