@@ -97,6 +97,7 @@ class UserKegiatanController extends Controller
             $datasie = collect();
             $datasie->put('nama',$sie->nama_sie);
             $jmlslese = 0;
+            $jmltugas= $sie->tugases->count();
             
 
             foreach($sie->tugases as $tugas){
@@ -107,9 +108,9 @@ class UserKegiatanController extends Controller
 
             $datasie->put('persen',0);
 
-            if ($sie->tugases->count()>0) {
-                $persen = (int) ($jmlslese/$sie->tugases->count())*100;
-                $datasie->put('persen',$persen);
+            if ($jmltugas>0) {
+                $persen = ($jmlslese/$sie->tugases->count())*100;
+                $datasie->put('persen',intval($persen));
             }
             
             $datasie->put('jumlahlese',$jmlslese);
@@ -149,6 +150,20 @@ class UserKegiatanController extends Controller
     public function update(Request $request, Kegiatan $kegiatan)
     {
         //
+        $validatedData = $request->validate([
+            'nama_kegiatan' => 'required',
+            'penyelenggara' => 'required',
+            'deskripsi_kegiatan' => 'required'
+        ]);
+        
+
+        $kegiatan->nama_kegiatan = $validatedData['nama_kegiatan'];
+        $kegiatan->penyelenggara = $validatedData['penyelenggara'];
+        $kegiatan->deskripsi_kegiatan = $validatedData['deskripsi_kegiatan'];
+        
+        $kegiatan->save();
+
+        return redirect("/kegiatans/$kegiatan->id");
     }
 
     /**

@@ -13,7 +13,9 @@
             <div class="col">
                 @foreach ($tugass as $tugas)            
                     <div class="row mt-3">
-                        <div class="card">
+                        <div class="card @if (!strcmp($tugas->status_tugas,'selesai'))
+                            border-success
+                        @endif">
                             <div class="card-body teks-kecil">
                                 <h5 class="h5 fw-normal text-secondary"><b>{{ $tugas->judul }}</b></h5>
                                 
@@ -48,8 +50,12 @@
                                 </div>
         
                                 <div class="mb-3 ms-3 row justify-content-end">
-                                    <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal2">Tandai Selesai</button>
+                                    @if (strcmp($tugas->status_tugas,'selesai'))
+                                    <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil tgs-edt"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                                        data-id="{{ $tugas->id }}" data-judul="{{ $tugas->judul }}" data-deskripsi="{{ $tugas->deskripsi }}"
+                                        data-status="{{ $tugas->status_tugas }}" data-lampiran="{{ $tugas->lampiran }}">Tandai Selesai</button>
+                                        @endif
                                 </div>
                             </div>
                         </div>
@@ -61,7 +67,7 @@
 </div>
 
 <!-- Modal Tambah -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center justify-content-center">
@@ -112,82 +118,60 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 
 <!-- Modal Edit -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center justify-content-center">
-                <h5 class="h5 text-center" id="exampleModalLabel">Tambah Tugas</h5>
-
+                <h5 class="h5 text-center" id="exampleModalLabel">Tandai Tugas Selesai</h5>
+                
             </div>
-            <form action="#" method="POST">
+            <form action="/tgscon/tugas" method="POST" id="formtugasedt">
+                @method('patch')
                 @csrf
-                <div class="modal-body teks-kecil">
-                    <div class="mb-3">
-                        <label for="namaKegiatan" class="form-label @error('nama_kegiatan') is-invalid @enderror">Nama
-                            Tugas</label>
-                        <input type="text" class="form-control" id="namaKegiatan" name="nama_kegiatan">
-                        @error('nama_kegiatan')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                <div class="modal-body ms-2">
+                    <p><small><i>Detil Tugas:</i></small></p>
+
+                    <input type="hidden" id="id" name="id">
+
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Judul Tugas</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="judul" class="form-control-plaintext" value=": Nama SIE 1">                            
                         </div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="deskripsi_kegiatan"
-                            class="form-label @error('deskripsi_kegiatan') is-invalid @enderror">Deskripsi_kegiatan</label>
-                        <textarea type="text" class="form-control" id="deskripsi_kegiatan"
-                            name="deskripsi_kegiatan"></textarea>
-                    </div>
-                    @error('deskripsi_kegiatan')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Mulai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Selesai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="penyelenggara"
-                            class="form-label @error('penyelenggara') is-invalid @enderror">Lokasi</label>
-                        <input type="text" class="form-control" id="penyelenggara" name="penyelenggara">
-                        @error('penyelenggara')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
                     </div>
 
-                </div>
-                <div class="modal-footer justify-content-center">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill"
-                        data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-outline-primary rounded-pill">Simpan Perubahan</button>
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Status</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="status_tugas" class="form-control-plaintext" value=": Nama Kegiatan">                            
+                        </div>
+                    </div>
+
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Deskripsi</label>
+                        <div class="col-sm-7">
+                            <textarea type="text" id="deskripsi" class="form-control-plaintext">: Deskripsi Tugas</textarea>                            
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="mb-3 ms-3">
+                        <label for="lampiran" class="form-label">Lampiran Tugas(pdf/docx) | <small><i> *Optional</i></small></label>
+                        <input class="form-control form-control-sm" id="lampiran" name="lampiran" type="file">
+                    </div>
+                    <hr>
+                    <div class="row justify-content-center">
+                        <p class="text-center d-blok"> Tandai Sebagai Tugas Selesai?</p>
+                        <div class="col-md-6">
+                            <div class="row">
+                                    <button type="button" class="col-5 btn btn-outline-secondary rounded-pill me-2"
+                                data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="col-6 btn btn-outline-primary rounded-pill ms-2" name="status" value="menunggu">Selesai</button>
+                            </div>                            
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -203,5 +187,30 @@
     });
 </script>
 @endif
+
+<script>
+    $(function(){
+        $('.tgs-edt').on('click',function(){
+            // $('.modal-footer button[type=submit]');
+            const id = $(this).data('id');
+            const judul = $(this).data('judul');
+            const status = $(this).data('status');
+            const deskripsi = $(this).data('deskripsi');
+            const lampiran = $(this).data('lampiran');
+
+            const act="/tgscon/tugas";
+
+            $('#formtugasedt').attr('action',act+"/"+id);
+
+            console.log($('#formtugasedt').attr('action'));
+            
+            $('#id').val(id);
+            $('#judul').val(judul);
+            $('#status_tugas').val(status);
+            $('#deskripsi').val(deskripsi);
+            
+        })
+    });
+</script>
 
 @endsection

@@ -2,7 +2,7 @@
     <div class="d-flex flex-column mt-3 align-items-start align-items-sm-start px-3 text-white min-vh-100">
         <a href="/"
             class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none border-bottom border-light">
-            <img class="img-center rounded me-2" src="Looper.png" width="20" height="20">
+            <img class="img-center rounded me-2" src="http://127.0.0.1:8000/Looper.png" width="20" height="20">
             <span class="fs-5 d-none d-sm-inline">SimPanitia</span>
         </a>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-start align-items-sm-start"

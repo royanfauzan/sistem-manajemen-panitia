@@ -1,13 +1,19 @@
 <?php
 
 use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\IntiAgendaController;
+use App\Http\Controllers\IntiSieController;
+use App\Http\Controllers\IntiTugasController;
+use App\Http\Controllers\KegiatanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MenjabatController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SieController;
+use App\Http\Controllers\TestKegiatanController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserKegiatanController;
+use App\Http\Controllers\UserTugasController;
 use App\Models\Agenda;
 use App\Models\Jabatan;
 use App\Models\Kegiatan;
@@ -52,13 +58,27 @@ Route::get('/listkegiatan',function () {
     
 Route::resource('/kegiatans', UserKegiatanController::class);
 
-Route::resource('/listtugas', TugasController::class);
-
-Route::resource('/listagenda', AgendaController::class);
+// Route::resource('/listagenda', AgendaController::class);
 
 Route::resource('/liststruktur', SieController::class);
 
 Route::resource('/listmenjabat', MenjabatController::class);
+
+Route::resource('/mjbcon/menjabats', MenjabatController::class);
+
+Route::resource('/tgscon/tugas', TugasController::class);
+
+Route::resource('/agndcon/agendas', AgendaController::class);
+
+Route::resource('/gajalan/siecon/sies', SieController::class);
+
+Route::get('tugas/{sie}', [UserTugasController::class,'index']);
+
+Route::get('kelola/tugas/{kegiatan}', [IntiTugasController::class,'index']);
+
+Route::get('kelola/struktur/{kegiatan}', [IntiSieController::class,'index']);
+
+Route::get('kelola/agendas/{kegiatan}', [IntiAgendaController::class,'index']);
 
 // development
     

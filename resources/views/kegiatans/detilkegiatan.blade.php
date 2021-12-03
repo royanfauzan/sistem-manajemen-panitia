@@ -41,7 +41,9 @@
 
                         <div class="mb-3 ms-3 row justify-content-end">
                             <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
-                                data-bs-toggle="modal" data-bs-target="#exampleModal">Ubah Detil</button>
+                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ $kegiatan->id }}"
+                                data-nama="{{ $kegiatan->nama_kegiatan }}" data-penyelenggara="{{ $kegiatan->penyelenggara }}"
+                                data-deskripsi="{{ $kegiatan->deskripsi_kegiatan }}" data-dokumen="{{ $kegiatan->dokumen_ijin }}" id="ubahkegiatan">Ubah Detil</button>
                         </div>
                     </div>
                 </div>
@@ -52,7 +54,9 @@
                 <div class="card">
                     <div class="card-header bg-warning text-white d-flex justify-content-between">
                         <span><b>Agenda Kegiatan</b></span>
-                        <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                        <a href="/kelola/agendas/{{ $kegiatan->id }}">
+                            <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                        </a>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -76,7 +80,9 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white d-flex justify-content-between">
                         <span><b>Tugas-Tugas</b></span>
-                        <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                        <a href="/kelola/tugas/{{ $kegiatan->id }}">
+                            <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                        </a>
                     </div>
                     <div class="card-body">
                         @foreach ($kegiatantgs->sies as $sie)                            
@@ -131,7 +137,9 @@
                 <div class="card">
                     <div class="card-header bg-danger text-white d-flex justify-content-between">
                         <span><b>Struktur</b></span>
-                        <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                        <a href="/kelola/struktur/{{ $kegiatan->id }}">
+                            <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                        </a>
                     </div>
                     <div class="card-body">
                         @foreach ($kegiatan->sies as $sie)
@@ -186,9 +194,11 @@
                 <h5 class="h5 text-center" id="exampleModalLabel">Ubah Detil Kegiatan</h5>
 
             </div>
-            <form action="#" method="POST">
+            <form action="/kegiatans" method="POST" id="formkegiatan">
+                @method('patch')
                 @csrf
                 <div class="modal-body">
+                    <input type="hidden" id="id" name="id">
 
                     <div class="mb-3">
                         <label for="namaKegiatan" class="form-label @error('nama_kegiatan') is-invalid @enderror">Nama
@@ -233,6 +243,8 @@
     </div>
 </div>
 
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
 @if (count($errors) > 0)
@@ -242,5 +254,30 @@
     });
 </script>
 @endif
+
+<script>
+    $(function(){
+        $('#ubahkegiatan').on('click',function(){
+            // $('.modal-footer button[type=submit]');
+            const id = $(this).data('id');
+            const nama = $(this).data('nama');
+            const penyelenggara = $(this).data('penyelenggara');
+            const deskripsi = $(this).data('deskripsi');
+            const dokumen = $(this).data('dokumen');
+
+            const act='/kegiatans';
+
+            $('#formkegiatan').attr('action',act+"/"+id);
+
+            console.log($('#formkegiatan').attr('action'));
+            
+            $('#id').val(id);
+            $('#namaKegiatan').val(nama);
+            $('#penyelenggara').val(penyelenggara);
+            $('#deskripsi_kegiatan').val(deskripsi);
+            
+        })
+    });
+</script>
 
 @endsection

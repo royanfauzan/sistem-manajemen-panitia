@@ -45,7 +45,7 @@ class AgendaController extends Controller
     public function store(Request $request)
     {
         //
-        $idKegiatan=1;
+        $idKegiatan=$request->get('kegiatan_id');
         $validatedData = $request->validate([
             'nama_agenda' => 'required',
             'deskripsi_agenda' => 'required',
@@ -68,10 +68,10 @@ class AgendaController extends Controller
         }
         
         $validatedData['kegiatan_id'] = $idKegiatan;
-        dd($validatedData);
+        // dd($validatedData);
 
         Agenda::create($validatedData);
-        return redirect('/dashboard');
+        return back();
     }
 
     /**
@@ -106,6 +106,36 @@ class AgendaController extends Controller
     public function update(Request $request, Agenda $agenda)
     {
         //
+        $validatedData = $request->validate([
+            'nama_agenda' => 'required',
+            'deskripsi_agenda' => 'required',
+            'tanggal_mulai' => 'required',
+            'lokasi' => 'required',
+        ]);
+
+        $date = $validatedData['tanggal_mulai'];
+        $createDate = new DateTime($date);
+        $strip = $createDate->format('Y-m-d H:i:s');
+
+        $validatedData['tanggal_mulai']=$strip;
+
+        if (!empty($request->input('tanggal_selesai'))) {
+            $date = $request->input('tanggal_selesai');
+            $createDate = new DateTime($date);
+            $strip = $createDate->format('Y-m-d H:i:s');
+
+            $validatedData['tanggal_selesai']=$strip;
+            $agenda->tanggal_selesai = $validatedData['tanggal_selesai'];
+        }
+        
+        $agenda->nama_agenda = $validatedData['nama_agenda'];
+        $agenda->deskripsi_agenda = $validatedData['deskripsi_agenda'];
+        $agenda->tanggal_mulai = $validatedData['tanggal_mulai'];
+        $agenda->lokasi = $validatedData['lokasi'];
+
+        $agenda->save();
+        // dd($agenda);
+        return back();
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menjabat;
+use App\Models\Sie;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MenjabatController extends Controller
@@ -36,18 +38,26 @@ class MenjabatController extends Controller
     public function store(Request $request)
     {
         //
+        $userid = 1;
+        $status = 'menunggu';
         $validatedData = $request->validate([
             'nim' => 'required',
             'sie_id' => 'required',
             'jabatan_id' => 'required'
         ]);
+
+        $validatedData['user_id']=User::where('nim',$validatedData['nim'])->get()->first()->id;
+
+        if ($userid!=$validatedData['user_id']) {
+            $status='aktif';
+        }
         
-        $validatedData['status']= 'aktif';
+        $validatedData['status']= $status;
         
-        dd($validatedData);
+        // dd($validatedData);
 
         Menjabat::create($validatedData);
-        return redirect('/dashboard');
+        return back();
     }
 
     /**
@@ -82,6 +92,39 @@ class MenjabatController extends Controller
     public function update(Request $request, Menjabat $menjabat)
     {
         //
+
+        $kegiatanid = Sie::find($menjabat->sie_id)->kegiatan_id;
+        $userid = 1;
+
+        $sies = Sie::select('id')->where('kegiatan_id',$kegiatanid)->get();
+
+        //Mengambil id sie kegiatan
+        $idsies=array(); 
+        foreach($sies as $sie){
+            $idsies[]=$sie->id;
+        }
+
+        $pengganti = Menjabat::with('jabatan')
+                                ->whereIn('sie_id',$idsies)
+                                ->where('user_id',$userid)->where('status','aktif')->get()->first();
+
+        
+
+        $menjabat->sie_id = $request->input('sie_id');
+        $menjabat->jabatan_id = $request->input('jabatan_id');
+
+        $menjabat->status = $request->input('status');
+
+        if ($pengganti!=null) {
+            if (intval($pengganti->jabatan->level_akses)>=intval($menjabat->jabatan->level_akses)) {
+                // $menjabat->save();
+                // dd($pengganti->jabatan->level_akses,$menjabat->jabatan->level_akses);
+            }
+        }
+
+
+        dd($menjabat);
+        return back();
     }
 
     /**

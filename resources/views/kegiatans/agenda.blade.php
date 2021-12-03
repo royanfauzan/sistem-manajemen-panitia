@@ -45,8 +45,14 @@
                                 </div>
         
                                 <div class="mb-3 ms-3 row justify-content-end">
-                                    <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal2">Ubah Detil</button>
+                                    <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil tbl-edt"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal2" 
+                                        data-id="{{ $agenda->id }}"
+                                        data-nama="{{ $agenda->nama_agenda }}"
+                                        data-deskripsi="{{ $agenda->deskripsi_agenda }}"
+                                        data-tglm="{{ date('Y-m-d\TH:i', strtotime($agenda->tanggal_mulai)) }}"
+                                        data-tgls="{{ date('Y-m-d\TH:i', strtotime($agenda->tanggal_selesai)) }}"
+                                        data-lokasi="{{ $agenda->lokasi }}">Ubah Detil</button>
                                 </div>
                             </div>
                         </div>
@@ -64,9 +70,10 @@
             <div class="modal-header text-center justify-content-center">
                 <h5 class="h5 text-center" id="exampleModalLabel">Tambah Agenda</h5>
             </div>
-            <form action="#" method="POST">
+            <form action="/agndcon/agendas" method="POST">
                 @csrf
                 <div class="modal-body teks-kecil">
+                    <input type="hidden" id="kegiatan_id" name="kegiatan_id" value="{{ $kegiatan->id }}">
                     <div class="mb-3">
                         <label for="namaagenda" class="form-label @error('nama_agenda') is-invalid @enderror">Nama
                             Agenda</label>
@@ -141,29 +148,29 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center justify-content-center">
-                <h5 class="h5 text-center" id="exampleModalLabel">Tambah Agenda</h5>
-
+                <h5 class="h5 text-center" id="exampleModalLabel">Ubah Agenda</h5>
             </div>
-            <form action="/listagenda" method="POST">
+            <form action="/agndcon/agendas" method="POST" id="formedtagnd">
+                @method('patch')
                 @csrf
                 <div class="modal-body teks-kecil">
                     <div class="mb-3">
-                        <label for="namaKegiatan" class="form-label @error('nama_kegiatan') is-invalid @enderror">Nama
+                        <label for="namaagenda1" class="form-label @error('nama_agenda') is-invalid @enderror">Nama
                             Agenda</label>
-                        <input type="text" class="form-control" id="namaKegiatan" name="nama_kegiatan">
-                        @error('nama_kegiatan')
+                        <input type="text" class="form-control" id="namaagenda1" name="nama_agenda">
+                        @error('nama_agenda')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="deskripsi_kegiatan"
-                            class="form-label @error('deskripsi_kegiatan') is-invalid @enderror">Deskripsi_kegiatan</label>
-                        <textarea type="text" class="form-control" id="deskripsi_kegiatan"
-                            name="deskripsi_kegiatan"></textarea>
+                        <label for="deskripsi_agenda1"
+                            class="form-label @error('deskripsi_agenda') is-invalid @enderror">Deskripsi_agenda</label>
+                        <textarea type="text" class="form-control" id="deskripsi_agenda1"
+                            name="deskripsi_agenda"></textarea>
                     </div>
-                    @error('deskripsi_kegiatan')
+                    @error('deskripsi_agenda')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -171,10 +178,10 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Mulai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
+                                <label for="tanggal_mulai1"
+                                    class="form-label @error('tanggal_mulai') is-invalid @enderror">Tanggal Mulai</label>
+                                <input type="datetime-local" class="form-control" id="tanggal_mulai1" name="tanggal_mulai">
+                                @error('tanggal_mulai')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -183,10 +190,10 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Selesai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
+                                <label for="tanggal_selesai1"
+                                    class="form-label @error('tanggal_selesai') is-invalid @enderror">Tanggal Selesai</label>
+                                <input type="datetime-local" class="form-control" id="tanggal_selesai1" name="tanggal_selesai">
+                                @error('tanggal_selesai')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -195,10 +202,10 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                        <label for="penyelenggara"
-                            class="form-label @error('penyelenggara') is-invalid @enderror">Lokasi</label>
-                        <input type="text" class="form-control" id="penyelenggara" name="penyelenggara">
-                        @error('penyelenggara')
+                        <label for="lokasi1"
+                            class="form-label @error('lokasi') is-invalid @enderror">Lokasi</label>
+                        <input type="text" class="form-control" id="lokasi1" name="lokasi">
+                        @error('lokasi')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -206,10 +213,10 @@
                     </div>
 
                 </div>
-                <div class="modal-footer justify-content-center">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary rounded-pill"
                         data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-outline-primary rounded-pill">Simpan Perubahan</button>
+                    <button type="submit" class="btn btn-primary rounded-pill">Simpan</button>
                 </div>
             </form>
         </div>
@@ -225,5 +232,34 @@
     });
 </script>
 @endif
+
+<script>
+    $(function(){
+        $('.tbl-edt').on('click',function(){
+            // $('.modal-footer button[type=submit]');
+            const id = $(this).data('id');
+            const nama = $(this).data('nama');
+            const deskripsi = $(this).data('deskripsi');
+            const tglm = $(this).data('tglm');
+            const tgls = $(this).data('tgls');
+            const lokasi = $(this).data('lokasi');
+
+            const act='/agndcon/agendas';
+
+            $('#formedtagnd').attr('action',act+"/"+id);
+
+            console.log($('#formedtagnd').attr('action'));
+            
+            $('#id').val(id);
+            $('#namaagenda1').val(nama);
+            $('#deskripsi_agenda1').val(deskripsi);
+            $('#tanggal_mulai1').val(tglm);
+            $('#tanggal_selesai1').val(tgls);
+            $('#lokasi1').val(lokasi);
+
+            
+        })
+    });
+</script>
 
 @endsection

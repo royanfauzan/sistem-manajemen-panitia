@@ -17,21 +17,20 @@
             <div class="col">
                 <div class="row">
                     <div class="col-lg-10">
-                        <div class="row mt-2">
-                            <div class="col-5"><b>SIE 1</b></div>
-                            <div class="col-4 text-center"><b>Status</b></div>
-                            <div class="col-2"></div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Tugas 1</div>
-                            <div class="col-4 text-center">Status Tugas 1</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Tugas 2</div>
-                            <div class="col-4 text-center">Status Tugas 2</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>
+                        @foreach ($tugassies as $tugassie)                            
+                            <div class="row mt-2">
+                                <div class="col-5"><b>{{ $tugassie->nama_sie }}</b></div>
+                                <div class="col-4 text-center"><b>Status</b></div>
+                                <div class="col-2"></div>
+                            </div>
+                            @foreach ($tugassie->tugases as $tugas)                                
+                                <div class="row teks-kecil">
+                                    <div class="col-5 ps-4">{{ $tugas->judul }}</div>
+                                    <div class="col-4 text-center">{{ $tugas->status_tugas }}</div>
+                                    <div class="col-2 text-center">detil</div>
+                                </div>
+                            @endforeach
+                        @endforeach
                         <div class="row mt-2">
                             <div class="col-5"><b>SIE 2</b></div>
                             <div class="col-4 text-center"><b>Status</b></div>
@@ -55,31 +54,27 @@
             <div class="col">
                 <div class="row">
                     <div class="col">
-                        <div class="row mt-2">
-                            <div class="col-5"><b>SIE 1</b></div>
-                            <div class="col-2 text-center"><b>Status</b></div>
-                            <div class="col-3 text-center"><b>Aksi</b></div>
-                        </div>
-                        <div class="row teks-kecil mt-1">
-                            <div class="col-5 ps-4">Tugas 1</div>
-                            <div class="col-2 text-center">Status Tugas 1</div>
-                            <div class="col-3 text-center">
-                                <div class="row">
-                                    <button type="button" class="col-md-5 btn btn-link rounded-pill me-2 teks-kecil">Detil</button>
-                                    <button type="submit" class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil">Konfirmasi</button>
-                                </div>
+                        @foreach ($menunggusies as $menunggusie)                            
+                            <div class="row mt-2">
+                                <div class="col-5"><b>{{ $menunggusie->nama_sie }}</b></div>
+                                <div class="col-2 text-center"><b>Status</b></div>
+                                <div class="col-3 text-center"><b>Aksi</b></div>
                             </div>
-                        </div>
-                        <div class="row teks-kecil mt-1">
-                            <div class="col-5 ps-4">Tugas 1</div>
-                            <div class="col-2 text-center">Status Tugas 1</div>
-                            <div class="col-3 text-center">
-                                <div class="row">
-                                    <button type="button" class="col-md-5 btn btn-link rounded-pill me-2 teks-kecil">Detil</button>
-                                    <button type="submit" class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil">Konfirmasi</button>
+                            @foreach ($menunggusie->tugases as $tugas)                                
+                                <div class="row teks-kecil mt-1">
+                                    <div class="col-5 ps-4">{{ $tugas->judul }}</div>
+                                    <div class="col-2 text-center">{{ $tugas->status_tugas }}</div>
+                                    <div class="col-3 text-center">
+                                        <div class="row">
+                                            <button type="button" class="col-md-5 btn btn-link rounded-pill me-2 teks-kecil">Detil</button>
+                                            <button type="submit" class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil tgs-edt" data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                                            data-id="{{ $tugas->id }}" data-judul="{{ $tugas->judul }}" data-deskripsi="{{ $tugas->deskripsi }}"
+                                        data-status="{{ $tugas->status_tugas }}" data-lampiran="{{ $tugas->lampiran }}">Konfirmasi</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endforeach
+                        @endforeach
                         <div class="row mt-2">
                             <div class="col-5"><b>SIE 2</b></div>
                             <div class="col-4 text-center"><b></b></div>
@@ -91,7 +86,7 @@
                             <div class="col-3 text-center">
                                 <div class="row">
                                     <button type="button" class="col-md-5 btn btn-link rounded-pill me-2 teks-kecil">Detil</button>
-                                    <button type="submit" class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil">Konfirmasi</button>
+                                    <button type="submit" class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil" data-bs-toggle="modal" data-bs-target="#exampleModal2">Konfirmasi</button>
                                 </div>
                             </div>
                         </div>
@@ -107,75 +102,63 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header text-center justify-content-center">
-                <h5 class="h5 text-center" id="exampleModalLabel">Tambah Agenda</h5>
-
+                <h5 class="h5 text-center" id="exampleModalLabel">Tandai Tugas Selesai</h5>
+                
             </div>
-            <form action="#" method="POST">
+            <form action="/tgscon/tugas" method="POST" id="formtugasedt">
+                @method('patch')
                 @csrf
-                <div class="modal-body teks-kecil">
-                    <div class="mb-3">
-                        <label for="namaKegiatan" class="form-label @error('nama_kegiatan') is-invalid @enderror">Nama
-                            Agenda</label>
-                        <input type="text" class="form-control" id="namaKegiatan" name="nama_kegiatan">
-                        @error('nama_kegiatan')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                <div class="modal-body ms-2">
+                    <p><small><i>Detil Tugas:</i></small></p>
+
+                    <input type="hidden" id="id" name="id">
+
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Judul Tugas</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="judul" class="form-control-plaintext" value=": Nama SIE 1">                            
                         </div>
-                        @enderror
-                    </div>
-                    <div class="mb-3">
-                        <label for="deskripsi_kegiatan"
-                            class="form-label @error('deskripsi_kegiatan') is-invalid @enderror">Deskripsi_kegiatan</label>
-                        <textarea type="text" class="form-control" id="deskripsi_kegiatan"
-                            name="deskripsi_kegiatan"></textarea>
-                    </div>
-                    @error('deskripsi_kegiatan')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                    @enderror
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Mulai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="penyelenggara"
-                                    class="form-label @error('penyelenggara') is-invalid @enderror">Tanggal Selesai</label>
-                                <input type="datetime-local" class="form-control" id="penyelenggara" name="penyelenggara">
-                                @error('penyelenggara')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="penyelenggara"
-                            class="form-label @error('penyelenggara') is-invalid @enderror">Lokasi</label>
-                        <input type="text" class="form-control" id="penyelenggara" name="penyelenggara">
-                        @error('penyelenggara')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
                     </div>
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill"
-                        data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary rounded-pill">Tambahkan</button>
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Status</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="status_tugas" class="form-control-plaintext" value=": Nama Kegiatan">                            
+                        </div>
+                    </div>
+
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Deskripsi</label>
+                        <div class="col-sm-7">
+                            <textarea type="text" id="deskripsi" class="form-control-plaintext">: Deskripsi Tugas</textarea>                            
+                        </div>
+                    </div>
+
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Lampiran</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="lampiran" class="form-control-plaintext" value=":">                            
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="mb-3 ms-3 row">
+                        <label for="inputNim" class="col-sm-4 col-form-label">Catatan <small><i>*opsional</i></small></label>
+                        <div class="col-sm-7">
+                            <input type="text" id="catatan" name="catatan" class="form-control">                            
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row justify-content-center">
+                        <p class="text-center d-blok"> Tandai Sebagai Tugas Selesai?</p>
+                        <div class="col-md-10">
+                            <div class="row">
+                                    <button type="submit" class="col-3 btn btn-danger rounded-pill me-2" name="status" value="revisi">Revisi</button>
+                                    <button type="button" class="col-3 btn btn-outline-secondary rounded-pill ms-2 me-2"
+                                data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="col-4 btn btn-outline-primary rounded-pill ms-2" name="status" value="selesai">Selesai</button>
+                            </div>                            
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -190,7 +173,7 @@
                 <h5 class="h5 text-center" id="exampleModalLabel">Tambah Tugas</h5>
 
             </div>
-            <form action="/listtugas" method="POST">
+            <form action="/tgscon/tugas" method="POST">
                 @csrf
                 <div class="modal-body teks-kecil">
                     <div class="row">
@@ -199,10 +182,10 @@
                                 <label for="sie_id"
                                     class="form-label @error('sie_id') is-invalid @enderror">Tugas Sie</label>
                                 <select class="form-select" name="sie_id">
-                                    <option selected value="null">Pilih Sie</option>
-                                    <option value="1">Sie 1</option>
-                                    <option value="2">Sie 2</option>
-                                    <option value="3">Sie 3</option>
+                                    <option selected value="" >Pilih Sie</option>
+                                    @foreach ($sies as $sie)                                        
+                                        <option value="{{ $sie->id }}">{{ $sie->nama_sie }}</option>
+                                    @endforeach
                                 </select>
                                 @error('sie_id')
                                 <div class="invalid-feedback">
@@ -263,5 +246,30 @@
     });
 </script>
 @endif
+
+<script>
+    $(function(){
+        $('.tgs-edt').on('click',function(){
+            // $('.modal-footer button[type=submit]');
+            const id = $(this).data('id');
+            const judul = $(this).data('judul');
+            const status = $(this).data('status');
+            const deskripsi = $(this).data('deskripsi');
+            const lampiran = $(this).data('lampiran');
+
+            const act="/tgscon/tugas";
+
+            $('#formtugasedt').attr('action',act+"/"+id);
+
+            console.log($('#formtugasedt').attr('action'));
+            
+            $('#id').val(id);
+            $('#judul').val(judul);
+            $('#status_tugas').val(status);
+            $('#deskripsi').val(deskripsi);
+            
+        })
+    });
+</script>
 
 @endsection

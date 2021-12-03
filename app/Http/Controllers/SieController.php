@@ -37,7 +37,7 @@ class SieController extends Controller
     public function store(Request $request)
     {
         //
-        $idKegiatan=1;
+        $idKegiatan=$request->get('kegiatan_id');
         $validatedData = $request->validate([
             'nama_sie' => 'required',
             'deskripsi_sie' => 'required'
@@ -84,6 +84,17 @@ class SieController extends Controller
     public function update(Request $request, Sie $sie)
     {
         //
+        $sie = Sie::find($request->input('id'));
+        $sie->rekrutmen = false;
+        if ($request->input('rekrutmen')!=null) {
+            $sie->rekrutmen = true;
+        }
+        $sie->nama_sie = $request->input('nama_sie');
+        $sie->deskripsi_sie = $request->input('deskripsi_sie');
+        // dd($sie,$request);
+
+        $sie->save();
+        return back();
     }
 
     /**
