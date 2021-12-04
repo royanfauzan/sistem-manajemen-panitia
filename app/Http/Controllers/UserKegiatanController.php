@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Agenda;
 use App\Models\Jabatan;
 use App\Models\Kegiatan;
+use App\Models\Menjabat;
 use App\Models\Sie;
 use Illuminate\Http\Request;
 
@@ -61,10 +62,36 @@ class UserKegiatanController extends Controller
      */
     public function show(Kegiatan $kegiatan)
     {
+        $userid = 1;
+        $role = 'guest';
+        $sieuser = null;
         $idkegiatan=$kegiatan->id;
         $kegiatan=Kegiatan::with('sies.menjabats.user')->find($idkegiatan);
         $kegiatantgs=Kegiatan::with('sies.tugases')->find($idkegiatan);
 
+        
+        //MENGAMBIL ROLE START
+        $sies = Sie::select('id')->where('kegiatan_id',$idkegiatan)->get();
+        $idsies=array(); 
+        foreach($sies as $sie){
+            $idsies[]=$sie->id;
+        }
+
+        $usermenjabat = Menjabat::with('jabatan')
+                                ->whereIn('sie_id',$idsies)
+                                ->where('user_id',$userid)->where('status','aktif')->get()->first();
+    
+        if ($usermenjabat!=null) {
+            $role = 'anggota';
+            $sieuser = $usermenjabat->sie_id;
+            if (intval($usermenjabat->jabatan->level_akses)>=4) {
+                $role = 'inti';
+                // $menjabat->save();
+                // dd($usermenjabat->jabatan->level_akses,$menjabat->jabatan->level_akses);
+            }
+        }
+        // dd($role);
+        //MENGAMBIL ROLE END
         
         $jabatans=Jabatan::all();
         $agendas=Agenda::where('kegiatan_id',$idkegiatan)->get();
@@ -125,7 +152,9 @@ class UserKegiatanController extends Controller
             'jabatans'=>$jabatans,
             'agendas'=>$agendas,
             'kegiatantgs'=>$kegiatantgs,
-            'progressies'=>$sietugases
+            'progressies'=>$sietugases,
+            'roleuser'=>$role,
+            'sieuser'=>$sieuser
         ]);
     }
 

@@ -40,10 +40,12 @@
                         </div>
 
                         <div class="mb-3 ms-3 row justify-content-end">
-                            <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
-                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ $kegiatan->id }}"
-                                data-nama="{{ $kegiatan->nama_kegiatan }}" data-penyelenggara="{{ $kegiatan->penyelenggara }}"
-                                data-deskripsi="{{ $kegiatan->deskripsi_kegiatan }}" data-dokumen="{{ $kegiatan->dokumen_ijin }}" id="ubahkegiatan">Ubah Detil</button>
+                            @if (!strcmp($roleuser,'inti'))
+                                <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="{{ $kegiatan->id }}"
+                                    data-nama="{{ $kegiatan->nama_kegiatan }}" data-penyelenggara="{{ $kegiatan->penyelenggara }}"
+                                    data-deskripsi="{{ $kegiatan->deskripsi_kegiatan }}" data-dokumen="{{ $kegiatan->dokumen_ijin }}" id="ubahkegiatan">Ubah Detil</button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -54,9 +56,11 @@
                 <div class="card">
                     <div class="card-header bg-warning text-white d-flex justify-content-between">
                         <span><b>Agenda Kegiatan</b></span>
-                        <a href="/kelola/agendas/{{ $kegiatan->id }}">
-                            <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
-                        </a>
+                        @if (!strcmp($roleuser,'inti'))
+                            <a href="/kelola/agendas/{{ $kegiatan->id }}">
+                                <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                            </a>
+                        @endif
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -80,9 +84,11 @@
                 <div class="card">
                     <div class="card-header bg-primary text-white d-flex justify-content-between">
                         <span><b>Tugas-Tugas</b></span>
-                        <a href="/kelola/tugas/{{ $kegiatan->id }}">
-                            <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
-                        </a>
+                        @if (!strcmp($roleuser,'inti'))
+                            <a href="/kelola/tugas/{{ $kegiatan->id }}">
+                                <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                            </a>
+                        @endif
                     </div>
                     <div class="card-body">
                         @foreach ($kegiatantgs->sies as $sie)                            
@@ -99,6 +105,17 @@
                                 </div>
                             @endforeach
                         @endforeach
+                        @if (!strcmp($roleuser,'anggota'))
+                            <div class="row mt-2 justify-content-end">
+                                <div class="col col-md-4">
+                                    <a href="/tugas/{{ $sieuser }}"> 
+                                        <div class="row btn btn-primary rounded-pill">
+                                            <p class="m-0">Cek Tugas Anda</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -124,7 +141,9 @@
                             </div>  
                         @endforeach 
                         <div class="mb-3 ms-3 mt-4 row justify-content-end">
-                            <button type="button" class="col-lg-3 col-md-4 col-sm-6 btn btn-primary me-2 teks-kecil"> Cetak progress</button>
+                            @if (!strcmp($roleuser,'inti'))
+                                <button type="button" class="col-lg-3 col-md-4 col-sm-6 btn btn-primary me-2 teks-kecil"> Cetak progress</button>
+                            @endif
                         </div>                    
                     </div>
                 </div>
@@ -137,9 +156,11 @@
                 <div class="card">
                     <div class="card-header bg-danger text-white d-flex justify-content-between">
                         <span><b>Struktur</b></span>
-                        <a href="/kelola/struktur/{{ $kegiatan->id }}">
-                            <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
-                        </a>
+                        @if (!strcmp($roleuser,'inti'))
+                            <a href="/kelola/struktur/{{ $kegiatan->id }}">
+                                <button type="button" class="btn btn-outline-light ms-auto me-2 teks-kecil"> <b><i class="bi bi-gear"></i> Kelola</b></button>
+                            </a>
+                        @endif
                     </div>
                     <div class="card-body">
                         @foreach ($kegiatan->sies as $sie)

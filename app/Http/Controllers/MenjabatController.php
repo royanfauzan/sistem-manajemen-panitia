@@ -38,6 +38,7 @@ class MenjabatController extends Controller
     public function store(Request $request)
     {
         //
+        //FIX THIS WITH AUTH
         $userid = 1;
         $status = 'menunggu';
         $validatedData = $request->validate([
@@ -92,9 +93,9 @@ class MenjabatController extends Controller
     public function update(Request $request, Menjabat $menjabat)
     {
         //
-
-        $kegiatanid = Sie::find($menjabat->sie_id)->kegiatan_id;
+        //FIX THIS WITH AUTH
         $userid = 1;
+        $kegiatanid = Sie::find($menjabat->sie_id)->kegiatan_id;
 
         $sies = Sie::select('id')->where('kegiatan_id',$kegiatanid)->get();
 

@@ -49,7 +49,7 @@ class SieController extends Controller
         dd($validatedData);
 
         Sie::create($validatedData);
-        return redirect('/dashboard');
+        return back();
     }
 
     /**
