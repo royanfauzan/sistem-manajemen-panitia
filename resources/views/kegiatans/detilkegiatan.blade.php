@@ -142,7 +142,9 @@
                         @endforeach 
                         <div class="mb-3 ms-3 mt-4 row justify-content-end">
                             @if (!strcmp($roleuser,'inti'))
-                                <button type="button" class="col-lg-3 col-md-4 col-sm-6 btn btn-primary me-2 teks-kecil"> Cetak progress</button>
+                                <a href="/laporan/cetak/{{ $kegiatan->id }}">
+                                    <button type="button" class="col-lg-3 col-md-4 col-sm-6 btn btn-primary me-2 teks-kecil"> Cetak progress</button>
+                                </a>
                             @endif
                         </div>                    
                     </div>
