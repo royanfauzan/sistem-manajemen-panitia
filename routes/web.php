@@ -5,6 +5,7 @@ use App\Http\Controllers\IntiAgendaController;
 use App\Http\Controllers\IntiSieController;
 use App\Http\Controllers\IntiTugasController;
 use App\Http\Controllers\KegiatanController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MenjabatController;
@@ -72,11 +73,11 @@ Route::resource('/agndcon/agendas', AgendaController::class);
 
 Route::resource('/gajalan/siecon/sies', SieController::class);
 
-Route::get('tugas/{sie}', [UserTugasController::class,'index']);
+Route::get('tugas/{sie}', [UserTugasController::class,'index'])->middleware('cekanggotasie');
 
-Route::get('kelola/tugas/{kegiatan}', [IntiTugasController::class,'index']);
+Route::get('kelola/tugas/{kegiatan}', [IntiTugasController::class,'index'])->middleware('cekinti');
 
-Route::get('kelola/struktur/{kegiatan}', [IntiSieController::class,'index']);
+Route::get('kelola/struktur/{kegiatan}', [IntiSieController::class,'index'])->middleware('cekinti');
 
 Route::get('kelola/agendas/{kegiatan}', [IntiAgendaController::class,'index']);
 
@@ -86,9 +87,15 @@ Route::get('/rekrut',function () {
     return view('kegiatans.rekrutmen');
 });
 
-Route::get('/detil',function () {
-    return view('kegiatans.detilkegiatan');
+Route::get('/laporan',function () {
+    return view('kegiatans.laporan');
 });
+
+Route::get('/laporan/tester',function () {
+    return view('kegiatans.tester-lap');
+});
+
+Route::get('/laporan/cetak/{kegiatan}',[LaporanController::class,'index']);
 
 Route::get('/agenda',function () {
     return view('kegiatans.agenda');

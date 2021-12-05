@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="http://127.0.0.1:8000/css/style.css">
 
 
-    <title>Hello, world!</title>
+    <title>SIMP</title>
 </head>
 
 <body>
