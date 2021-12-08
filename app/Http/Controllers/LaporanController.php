@@ -22,7 +22,7 @@ class LaporanController extends Controller
         // // $pdf = PDF::loadHTML("<h1>AAAAAAAAAAAA</h1>");
 
         // return $pdf->stream();
-        $userid = 1;
+        $userid = auth()->user()->id;
         $role = 'guest';
         $sieuser = null;
         $idkegiatan=$kegiatan->id;

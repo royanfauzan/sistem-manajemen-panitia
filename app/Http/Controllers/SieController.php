@@ -46,7 +46,7 @@ class SieController extends Controller
         $validatedData['rekrutmen']= null!=$request->input('rekrutmen');
         
         $validatedData['kegiatan_id'] = $idKegiatan;
-        dd($validatedData);
+        // dd($validatedData);
 
         Sie::create($validatedData);
         return back();

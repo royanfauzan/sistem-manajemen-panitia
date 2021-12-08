@@ -6,7 +6,7 @@ use App\Models\Agenda;
 use App\Models\Kegiatan;
 use Illuminate\Http\Request;
 
-class IntiAgendaController extends Controller
+class UserAgendaController extends Controller
 {
     //
     public function index(Kegiatan $kegiatan)
@@ -19,7 +19,7 @@ class IntiAgendaController extends Controller
         return view('kegiatans.agenda', [
             'kegiatan'=>$kegiatan,
             'agendas'=>$agendas,
-            'status'=>'inti'
+            'status'=>'guest'
         ]);
     }
 }

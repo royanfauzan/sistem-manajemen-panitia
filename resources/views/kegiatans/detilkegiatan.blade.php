@@ -72,9 +72,20 @@
                             <div class="row teks-kecil">
                                 <div class="col-5 ps-4">{{ $agenda->nama_agenda }}</div>
                                 <div class="col-4 text-center">{{ $agenda->tanggal_mulai }}</div>
-                                <div class="col-2 text-center">detil</div>
+                                <div class="col-2 text-center">...</div>
                             </div> 
                         @endforeach
+                        @if (!strcmp($roleuser,'anggota'))
+                            <div class="row mt-2 justify-content-end">
+                                <div class="col col-md-4">
+                                    <a href="/user/agendas/{{ $kegiatan->id }}"> 
+                                        <div class="row btn btn-warning rounded-pill">
+                                            <p class="m-0">Lihat Detil</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -170,38 +181,14 @@
                                 <div class="col"><b>{{ $sie->nama_sie }}</b></div>
                             </div>
                             @foreach ($sie->menjabats as $menjabat)
-                                <div class="row teks-kecil">
-                                    <div class="col-7 ps-4">{{ $menjabat->user->nama_user }}</div>
-                                    <div class="col-5 text-center">{{ $jabatans[$menjabat->jabatan_id-1]->nama_jabatan }}</div>
-                                </div>
+                                @if (!strcmp($menjabat->status,'aktif'))                                
+                                    <div class="row teks-kecil">
+                                        <div class="col-7 ps-4">{{ $menjabat->user->nama_user }}</div>
+                                        <div class="col-5 text-center">{{ $jabatans[$menjabat->jabatan_id-1]->nama_jabatan }}</div>
+                                    </div>
+                                @endif
                             @endforeach
-                        @endforeach
-                        <div class="row mt-2">
-                            <div class="col"><b>SIE 1</b></div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-7 ps-4">Anggota 1</div>
-                            <div class="col-5 text-center">Jabatan</div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-7 ps-4">Anggota 2</div>
-                            <div class="col-5 text-center">Jabatan</div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-7 ps-4">Anggota 3</div>
-                            <div class="col-5 text-center">Jabatan</div>
-                        </div>
-                        <div class="row mt-2">
-                            <div class="col"><b>SIE 2</b></div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-7 ps-4">Anggota 1</div>
-                            <div class="col-5 text-center">Jabatan</div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-7 ps-4">Anggota 2</div>
-                            <div class="col-5 text-center">Jabatan</div>
-                        </div>                        
+                        @endforeach                     
                     </div>
                 </div>
             </div>

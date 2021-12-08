@@ -40,7 +40,7 @@ class MenjabatController extends Controller
     {
         //
         //FIX THIS WITH AUTH
-        $userid = 3;
+        $userid = auth()->user()->id;
         $status = 'aktif';
         $validatedData = $request->validate([
             'nim' => 'required',
@@ -66,7 +66,7 @@ class MenjabatController extends Controller
         }
 
         $validatedData['status']= $status;
-        dd($validatedData);
+        // dd($validatedData);
         Menjabat::create($validatedData);
 
         return back();

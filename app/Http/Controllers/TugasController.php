@@ -52,10 +52,10 @@ class TugasController extends Controller
         
         $validatedData['catatan']= $request->input('catatan');
         
-        dd($validatedData);
+        // dd($validatedData);
 
         Tugas::create($validatedData);
-        return redirect('/dashboard');
+        return back();
     }
 
     /**

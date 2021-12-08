@@ -75,21 +75,6 @@
                                 </div>
                             @endforeach
                         @endforeach
-                        <div class="row mt-2">
-                            <div class="col-5"><b>SIE 2</b></div>
-                            <div class="col-4 text-center"><b></b></div>
-                            <div class="col-2"></div>
-                        </div>
-                        <div class="row teks-kecil mt-1">
-                            <div class="col-5 ps-4">Tugas 1</div>
-                            <div class="col-2 text-center">Status Tugas 1</div>
-                            <div class="col-3 text-center">
-                                <div class="row">
-                                    <button type="button" class="col-md-5 btn btn-link rounded-pill me-2 teks-kecil">Detil</button>
-                                    <button type="submit" class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil" data-bs-toggle="modal" data-bs-target="#exampleModal2">Konfirmasi</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

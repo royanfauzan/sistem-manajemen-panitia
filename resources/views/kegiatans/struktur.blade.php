@@ -66,8 +66,14 @@
                                 <div class="row">
                                     <button type="button"
                                         class="col-md-5 btn btn-link rounded-pill me-2 teks-kecil">Detil</button>
-                                    <button type="submit"
-                                        class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil">Ubah</button>
+                                        <button type="submit"
+                                        class="col-md-6 btn btn-outline-primary rounded-pill ms-2 teks-kecil rekrut-edt" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal5"
+                                        data-id="{{ $menjabat->id}}"
+                                        data-nama="{{ $menjabat->user->nama_user }}"
+                                        data-nim="{{ $menjabat->user->nim }}"
+                                        data-sie="{{ $menjabat->sie_id }}"
+                                        data-jabatan="{{ $menjabat->jabatan_id }}">Kelola</button>
                                 </div>
                             </div>
                         </div>
@@ -383,6 +389,84 @@
     </div>
 </div>
 
+<!-- Modal Rekrutmen Anggota -->
+<div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center justify-content-center">
+                <h5 class="h5 text-center" id="exampleModalLabel">Kelola Rekrutmen</h5>
+            </div>
+            <form action="/mjbcon/menjabats" id="formrekrutedt" method="POST">
+                @method('patch')
+                @csrf
+                <div class="modal-body teks-kecil">
+                    <input type="hidden" id="id_rek" name="id">
+
+                    <div class="mb-3 ms-3 row">
+                        <label for="nama_rek" class="col-sm-4 col-form-label">Nama Anggota</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="nama_rek" class="form-control-plaintext" >                            
+                        </div>
+                    </div>
+
+                    <div class="mb-3 ms-3 row">
+                        <label for="nim_rek" class="col-sm-4 col-form-label">NIM </label>
+                        <div class="col-sm-7">
+                            <input type="text" id="nim_rek" class="form-control-plaintext">                            
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="sie_id_rek"
+                                    class="form-label @error('sie_id') is-invalid @enderror">Sie</label>
+                                <select class="form-select" id="sie_id_rek" name="sie_id">
+                                    <option selected value="" >Pilih Sie</option>
+                                    @foreach ($sies as $sie)                                        
+                                        <option value="{{ $sie->id }}">{{ $sie->nama_sie }}</option>
+                                    @endforeach
+                                </select>
+                                @error('sie_id')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="jabatan_id_rek"
+                                    class="form-label @error('jabatan_id') is-invalid @enderror">Jabatan</label>
+                                <select class="form-select" id="jabatan_id_rek" name="jabatan_id">
+                                    <option selected value="" >Pilih Jabatan</option>
+                                    @foreach ($jabatans as $jabatan)                                        
+                                        <option value="{{ $jabatan->id }}">{{ $jabatan->nama_jabatan }}</option>
+                                    @endforeach
+                                </select>
+                                @error('jabatan_id')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-12 d-flex justify-content-between">
+                        <button type="submit" class="btn btn-danger rounded-pill me-2" name="status" value="ditolak">Tolak</button>                    
+                        <button type="button" class="btn btn-outline-secondary rounded-pill ms-5"
+                            data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary rounded-pill" name="status" value="aktif">Terima</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
 @if (count($errors) > 0)
@@ -414,6 +498,28 @@
             $('#nim_edt').val(nim);
             $('#jabatan_id_edt').val(jabatan);
             $('#sie_id_edt').val(sie);
+            
+        });
+
+        $('.rekrut-edt').on('click',function(){
+            // $('.modal-footer button[type=submit]');
+            const id = $(this).data('id');
+            const nama = $(this).data('nama');
+            const nim = $(this).data('nim');
+            const sie = $(this).data('sie');
+            const jabatan = $(this).data('jabatan');
+
+            const act="/mjbcon/menjabats";
+
+            $('#formrekrutedt').attr('action',act+"/"+id);
+
+            console.log($('#formrekrutedt').attr('action'));
+            
+            $('#id_rek').val(id);
+            $('#nama_rek').val(nama);
+            $('#nim_rek').val(nim);
+            $('#jabatan_id_rek').val(jabatan);
+            $('#sie_id_rek').val(sie);
             
         });
 

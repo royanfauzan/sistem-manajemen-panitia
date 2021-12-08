@@ -17,7 +17,7 @@ class CekAnggotaSie
      */
     public function handle(Request $request, Closure $next)
     {
-        $userid=2;
+        $userid=auth()->user()->id;
         $pathurl = $request->path();
         $arraypath = explode('/',$pathurl);
         $id = intval(end($arraypath));
@@ -29,7 +29,6 @@ class CekAnggotaSie
             return $next($request);
         }
 
-        dd($id);
 
         return redirect('/dashboard');
     }

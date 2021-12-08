@@ -14,7 +14,7 @@ class UtamaController extends Controller
     public function dashboard()
     {
         //
-        $userid = 2;
+        $userid = auth()->user()->id;
         $arrkegid = array();
         $arrsieid = array();
         $usermenjabats = Menjabat::with('sie')
@@ -43,7 +43,7 @@ class UtamaController extends Controller
     public function mylistkegiatan()
     {
         //
-        $userid = 2;
+        $userid = auth()->user()->id;
         $arrkegid = array();
         $arrsieid = array();
         $usermenjabats = Menjabat::with('sie')
@@ -81,7 +81,7 @@ class UtamaController extends Controller
     public function rekrutmen()
     {
         //
-        $userid = 3;
+        $userid = auth()->user()->id;
         $arrkegid = array();
         $usermenjabats = Menjabat::with('sie')
                                 ->where('user_id',$userid)

@@ -13,6 +13,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SieController;
 use App\Http\Controllers\TestKegiatanController;
 use App\Http\Controllers\TugasController;
+use App\Http\Controllers\UserAgendaController;
 use App\Http\Controllers\UserKegiatanController;
 use App\Http\Controllers\UserTugasController;
 use App\Http\Controllers\UtamaController;
@@ -46,37 +47,41 @@ Route::post('/logout', [LoginController::class,'logout']);
 Route::get('/registrasi', [RegisterController::class,'index'])->middleware('guest');
 Route::post('/registrasi',[RegisterController::class,'store']);
 
-Route::get('/dashboard',[UtamaController::class,'dashboard']);
+Route::get('/dashboard',[UtamaController::class,'dashboard'])->middleware('auth');
 
-Route::get('/mylistkegiatan',[UtamaController::class,'mylistkegiatan']);
+Route::get('/mylistkegiatan',[UtamaController::class,'mylistkegiatan'])->middleware('auth');
 
-Route::get('/listkegiatan',[UtamaController::class,'listkegiatan']);
+Route::get('/listkegiatan',[UtamaController::class,'listkegiatan'])->middleware('auth');
     
-Route::resource('/kegiatans', UserKegiatanController::class);
+Route::resource('/kegiatans', UserKegiatanController::class)->middleware('auth');
 
 // Route::resource('/listagenda', AgendaController::class);
 
-Route::resource('/liststruktur', SieController::class);
+Route::resource('/liststruktur', SieController::class)->middleware('auth');
 
-Route::resource('/listmenjabat', MenjabatController::class);
+Route::resource('/listmenjabat', MenjabatController::class)->middleware('auth');
 
-Route::resource('/mjbcon/menjabats', MenjabatController::class);
+Route::resource('/mjbcon/menjabats', MenjabatController::class)->middleware('auth');
 
-Route::resource('/tgscon/tugas', TugasController::class);
+Route::resource('/tgscon/tugas', TugasController::class)->middleware('auth');
 
-Route::resource('/agndcon/agendas', AgendaController::class);
+Route::resource('/agndcon/agendas', AgendaController::class)->middleware('auth');
 
-Route::resource('/gajalan/siecon/sies', SieController::class);
+Route::resource('/gajalan/siecon/sies', SieController::class)->middleware('auth');
 
-Route::get('tugas/{sie}', [UserTugasController::class,'index'])->middleware('cekanggotasie');
+Route::get('tugas/{sie}', [UserTugasController::class,'index'])->middleware('auth','cekanggotasie');
 
-Route::get('kelola/tugas/{kegiatan}', [IntiTugasController::class,'index'])->middleware('cekinti');
+Route::get('kelola/tugas/{kegiatan}', [IntiTugasController::class,'index'])->middleware('auth','cekinti');
 
-Route::get('kelola/struktur/{kegiatan}', [IntiSieController::class,'index'])->middleware('cekinti');
+Route::get('kelola/struktur/{kegiatan}', [IntiSieController::class,'index'])->middleware('auth','cekinti');
 
-Route::get('kelola/agendas/{kegiatan}', [IntiAgendaController::class,'index']);
+Route::get('kelola/agendas/{kegiatan}', [IntiAgendaController::class,'index'])->middleware('auth');
 
-Route::get('/rekrut',[UtamaController::class,'rekrutmen']);
+Route::get('user/agendas/{kegiatan}', [UserAgendaController::class,'index'])->middleware('auth');
+
+Route::get('/rekrut',[UtamaController::class,'rekrutmen'])->middleware('auth');
+
+Route::get('/laporan/cetak/{kegiatan}',[LaporanController::class,'index'])->middleware('auth','cekinti');
 
 // development
 
@@ -93,7 +98,6 @@ Route::get('/laporan/tester',function () {
     return view('kegiatans.tester-lap');
 });
 
-Route::get('/laporan/cetak/{kegiatan}',[LaporanController::class,'index']);
 
 Route::get('/agenda',function () {
     return view('kegiatans.agenda');

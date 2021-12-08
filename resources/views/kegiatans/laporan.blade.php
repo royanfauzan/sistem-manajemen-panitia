@@ -41,7 +41,7 @@
         <div class="row">
             <div class="col p-0">
                 <div class="row pencetak justify-content-center m-0 p-0">
-                    <button id="btn-cetak" class="btn btn-primary">Cetak PDF</button>
+                    <button id="btn-cetak" class="btn btn-primary" data-id="{{ $kegiatan->id }}">Cetak PDF</button>
                 </div>
                 {{-- KEPALA LAPORAN --}}
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Fifth navbar example">
@@ -73,7 +73,7 @@
                         </ul>
                     </div>
                     <div class="col-6">
-                        <p class="text-end mb-0">Nama Pencetak</p>
+                        <p class="text-end mb-0"> {{ auth()->user()->nama_user }} </p>
                         <p class="text-end">{{ $roleuser }}</p>
                     </div>
                 </div>
@@ -304,10 +304,14 @@
     <script>
         $(function(){
             $('.pencetak').on('click',function(){
+
+                const id = $("#btn-cetak").data('id');
+                const halaman = '/kegiatans/'+id;
+
                 
                 $('#btn-cetak').remove();
                 print();
-                // location.href = '/kegiatans/2';
+                location.href = halaman;
             });
 
         });

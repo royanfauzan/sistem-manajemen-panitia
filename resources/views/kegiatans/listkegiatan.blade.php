@@ -32,7 +32,7 @@
                                     <h5 class="card-title">{{ $kegiatan->nama_kegiatan }}</h5>
                                     <p class="card-text">{{ $kegiatan->deskripsi_kegiatan }}</p>
                                     <p><small>Oleh : {{ $kegiatan->penyelenggara }}</small></p>
-                                    <a href="#" class="btn btn-outline-warning text-white">Detail</a>
+                                    <a href="/kegiatans/{{ $kegiatan->id }}" class="btn btn-outline-warning text-white">Detail</a>
                                 </div>
                             </div>
                         </div>

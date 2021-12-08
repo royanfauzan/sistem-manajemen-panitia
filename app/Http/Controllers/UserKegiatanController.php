@@ -67,7 +67,7 @@ class UserKegiatanController extends Controller
         
         Menjabat::create($dataMenjabat);
 
-        return redirect('/dashboard');
+        return redirect('/kegiatans/'.$kegiatan->id);
     }
 
     /**
@@ -78,7 +78,7 @@ class UserKegiatanController extends Controller
      */
     public function show(Kegiatan $kegiatan)
     {
-        $userid = 1;
+        $userid = auth()->user()->id;
         $role = 'guest';
         $sieuser = null;
         $idkegiatan=$kegiatan->id;

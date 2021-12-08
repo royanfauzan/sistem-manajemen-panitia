@@ -22,7 +22,7 @@ class IntiSieController extends Controller
         $sies = Sie::where('kegiatan_id', $idkegiatan)->get();
 
         $sierekruts = Sie::with(['menjabats' => function ($query) {
-            $query->where('status', '=', 'mendaftar');
+            $query->where('status', '=', 'menunggu');
         }])->where('kegiatan_id', $idkegiatan)->get();
 
         return view('kegiatans.struktur', [

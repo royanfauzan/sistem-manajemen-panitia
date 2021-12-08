@@ -8,9 +8,11 @@
                 <h4 class="h4 fw-normal text-secondary"><b>Agenda {{ $kegiatan->nama_kegiatan }}</b></h4>
             </div>
             <div class="col-md-3 ms-auto">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="bi bi-plus-circle"></i> Tambah Kegiatan
-                </button>
+                @if (!strcmp($status,'inti'))                    
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="bi bi-plus-circle"></i> Tambah Kegiatan
+                    </button>
+                @endif
             </div>
         </div>
         <div class="row mt-3 me-5 p-4">
@@ -45,14 +47,16 @@
                                 </div>
         
                                 <div class="mb-3 ms-3 row justify-content-end">
-                                    <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil tbl-edt"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal2" 
-                                        data-id="{{ $agenda->id }}"
-                                        data-nama="{{ $agenda->nama_agenda }}"
-                                        data-deskripsi="{{ $agenda->deskripsi_agenda }}"
-                                        data-tglm="{{ date('Y-m-d\TH:i', strtotime($agenda->tanggal_mulai)) }}"
-                                        data-tgls="{{ date('Y-m-d\TH:i', strtotime($agenda->tanggal_selesai)) }}"
-                                        data-lokasi="{{ $agenda->lokasi }}">Ubah Detil</button>
+                                    @if (!strcmp($status,'inti'))                    
+                                        <button type="button" class="col-lg-2 col-md-3 col-sm-4 btn btn-link me-2 teks-kecil tbl-edt"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal2" 
+                                            data-id="{{ $agenda->id }}"
+                                            data-nama="{{ $agenda->nama_agenda }}"
+                                            data-deskripsi="{{ $agenda->deskripsi_agenda }}"
+                                            data-tglm="{{ date('Y-m-d\TH:i', strtotime($agenda->tanggal_mulai)) }}"
+                                            data-tgls="{{ date('Y-m-d\TH:i', strtotime($agenda->tanggal_selesai)) }}"
+                                            data-lokasi="{{ $agenda->lokasi }}">Ubah Detil</button>
+                                    @endif
                                 </div>
                             </div>
                         </div>
