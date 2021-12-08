@@ -20,7 +20,7 @@ class CekInti
     public function handle(Request $request, Closure $next)
     {
         // FIX WITH AUTH
-        $userid=2;
+        $userid=1;
         $pathurl = $request->path();
         $arraypath = explode('/',$pathurl);
         $id = intval(end($arraypath));

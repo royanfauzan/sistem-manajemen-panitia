@@ -41,6 +41,7 @@ class UserKegiatanController extends Controller
     {
         //
         // dd($request);
+        $userid = auth()->user()->id;
         $validatedData = $request->validate([
             'nama_kegiatan' => 'required',
             'penyelenggara' => 'required',
@@ -50,7 +51,22 @@ class UserKegiatanController extends Controller
         $validatedData['user_id'] = auth()->user()->id;
         // dd($validatedData);
 
-        Kegiatan::create($validatedData);
+        $kegiatan = Kegiatan::create($validatedData);
+
+        $dataSie['nama_sie'] = 'inti';
+        $dataSie['deskripsi_sie'] = 'inti';
+        $dataSie['rekrutmen'] = false;
+        $dataSie['kegiatan_id'] = $kegiatan->id;
+        
+        $sie = Sie::create($dataSie);
+
+        $dataMenjabat['sie_id'] = $sie->id;
+        $dataMenjabat['user_id'] = $userid;
+        $dataMenjabat['jabatan_id'] = Jabatan::where('nama_jabatan','Ketua')->get()->first()->id;
+        $dataMenjabat['status'] = 'aktif';
+        
+        Menjabat::create($dataMenjabat);
+
         return redirect('/dashboard');
     }
 

@@ -91,7 +91,14 @@
         </div>
         <div class="row mt-1 me-5 p-4">
             <div class="col">
-                <div class="row">                    
+                <div class="row">
+                    @if (session()->has('tambahError'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('tambahError') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                        </div>
+                    @endif                    
                     <div class="col">
                         @foreach ($kegiatan->sies as $sie)
                             <div class="row mt-2">

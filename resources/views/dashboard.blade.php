@@ -14,7 +14,7 @@
                                 <h5 class="card-title">{{ $kegiatan->nama_kegiatan }}</h5>
                                 <p class="card-text">{{ $kegiatan->deskripsi_kegiatan }}</p>
                                 <p><small>Oleh : {{ $kegiatan->penyelenggara }}</small></p>
-                                <a href="#" class="btn btn-primary">Kelola</a>
+                                <a href="/kegiatans/{{ $kegiatan->id }}" class="btn btn-primary">Kelola</a>
                             </div>
                         </div>
                         @endforeach
@@ -39,12 +39,20 @@
                 <thead>
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Kegiatan</th>
-                        <th scope="col">Tugas</th>
-                        <th scope="col">Tanggal</th>
+                        <th scope="col" class="text-center">Tugas</th>
+                        <th scope="col" class="text-center">Sie</th>
+                        <th scope="col" class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($tugases as $key=>$tugas)
+                        <tr>
+                            <td class="text-start teks-kecil">{{ ++$key }}</td>
+                            <td class="text-center teks-kecil">{{ $tugas->judul }}</td>
+                            <td class="text-center teks-kecil">{{ $tugas->sie->nama_sie }}</td>
+                            <td class="text-center teks-kecil"><a href="/tugas/{{ $tugas->sie->id }}">Cek Tugas</a></td>
+                        </tr> 
+                    @endforeach
                 </tbody>
             </table>
         </div>

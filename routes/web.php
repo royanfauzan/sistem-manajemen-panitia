@@ -15,6 +15,7 @@ use App\Http\Controllers\TestKegiatanController;
 use App\Http\Controllers\TugasController;
 use App\Http\Controllers\UserKegiatanController;
 use App\Http\Controllers\UserTugasController;
+use App\Http\Controllers\UtamaController;
 use App\Models\Agenda;
 use App\Models\Jabatan;
 use App\Models\Kegiatan;
@@ -45,17 +46,11 @@ Route::post('/logout', [LoginController::class,'logout']);
 Route::get('/registrasi', [RegisterController::class,'index'])->middleware('guest');
 Route::post('/registrasi',[RegisterController::class,'store']);
 
-Route::get('/dashboard',function () {
-    return view('dashboard',[
-        'kegiatans' => Kegiatan::where('user_id',auth()->user()->id)->get()
-    ]);
-})->middleware('auth');
+Route::get('/dashboard',[UtamaController::class,'dashboard']);
 
-Route::get('/listkegiatan',function () {
-    return view('kegiatans.listkegiatan',[
-        'kegiatans' => Kegiatan::all()
-        ]);
-    });
+Route::get('/mylistkegiatan',[UtamaController::class,'mylistkegiatan']);
+
+Route::get('/listkegiatan',[UtamaController::class,'listkegiatan']);
     
 Route::resource('/kegiatans', UserKegiatanController::class);
 
@@ -81,11 +76,14 @@ Route::get('kelola/struktur/{kegiatan}', [IntiSieController::class,'index'])->mi
 
 Route::get('kelola/agendas/{kegiatan}', [IntiAgendaController::class,'index']);
 
+Route::get('/rekrut',[UtamaController::class,'rekrutmen']);
+
 // development
+
     
-Route::get('/rekrut',function () {
-    return view('kegiatans.rekrutmen');
-});
+// Route::get('/rekrut',function () {
+//     return view('kegiatans.rekrutmen');
+// });
 
 Route::get('/laporan',function () {
     return view('kegiatans.laporan');

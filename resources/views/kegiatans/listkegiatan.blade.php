@@ -13,7 +13,7 @@
             </div>
             <div class="row pe-4 mt-3">
                 <div class="col">
-                    <h4 class="h4 fw-normal text-secondary"><b>List Kegiatan Kepanitiaan</b></h4>
+                    <h4 class="h4 fw-normal text-secondary"><b>List Kegiatan Kepanitiaan ( {{ $halaman }} )</b></h4>
                 </div>
                 <div class="col-md-3 ms-auto">
                     <form class="d-flex">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jabatan;
 use App\Models\Menjabat;
 use App\Models\Sie;
 use App\Models\User;
@@ -39,25 +40,35 @@ class MenjabatController extends Controller
     {
         //
         //FIX THIS WITH AUTH
-        $userid = 1;
-        $status = 'menunggu';
+        $userid = 3;
+        $status = 'aktif';
         $validatedData = $request->validate([
             'nim' => 'required',
             'sie_id' => 'required',
             'jabatan_id' => 'required'
         ]);
 
-        $validatedData['user_id']=User::where('nim',$validatedData['nim'])->get()->first()->id;
-
-        if ($userid!=$validatedData['user_id']) {
-            $status='aktif';
+        if ($request->input('mendaftar')!=null) {
+            $validatedData['nim'] = User::find($userid)->nim;
+            $validatedData['jabatan_id'] =Jabatan::where('nama_jabatan','Anggota')->get()->first()->id;
+            $status = 'menunggu';
+            // dd($validatedData);
         }
-        
-        $validatedData['status']= $status;
+
+        $jabatan = Menjabat::where('sie_id',$validatedData['sie_id'])->where('status','aktif')->where('user_id',$userid)->get()->first();
+
+        $validatedData['user_id']=User::where('nim',$validatedData['nim'])->get()->first()->id;
         
         // dd($validatedData);
 
+        if ($validatedData['user_id']==null || $jabatan!=null) {
+            return back()->with('tambahError','User dengan Nim :'.$validatedData['nim'].' tidak Terdaftar/sudah anggota');
+        }
+
+        $validatedData['status']= $status;
+        dd($validatedData);
         Menjabat::create($validatedData);
+
         return back();
     }
 
