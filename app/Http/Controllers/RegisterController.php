@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MailSend;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
 {
@@ -26,6 +28,18 @@ class RegisterController extends Controller
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         User::create($validatedData);
+
+        // PENGIRIM EMAIL
+
+        // $details = [
+        //     'nim' => $validatedData['nim'],
+        //     'email' => $validatedData['email'],
+        //     'nama_user' => $validatedData['nama_user']
+        // ];
+
+        // Mail::to($validatedData['email'])->send(new MailSend($details));
+
+        // PENGIRIM EMAIL END
 
         $request->session()->flash('success','Akun Berhasil Didaftarkan');
 
