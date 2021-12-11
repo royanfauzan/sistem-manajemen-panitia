@@ -134,8 +134,9 @@ class MenjabatController extends Controller
             }
         }
 
+        $menjabat->save();
 
-        dd($menjabat);
+        // dd($menjabat);
         return back();
     }
 

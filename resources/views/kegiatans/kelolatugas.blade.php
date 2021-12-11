@@ -31,16 +31,6 @@
                                 </div>
                             @endforeach
                         @endforeach
-                        <div class="row mt-2">
-                            <div class="col-5"><b>SIE 2</b></div>
-                            <div class="col-4 text-center"><b>Status</b></div>
-                            <div class="col-2"></div>
-                        </div>
-                        <div class="row teks-kecil">
-                            <div class="col-5 ps-4">Tugas 1</div>
-                            <div class="col-4 text-center">Status Tugas 1</div>
-                            <div class="col-2 text-center">detil</div>
-                        </div>
                     </div>
                 </div>
             </div>

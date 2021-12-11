@@ -8,16 +8,24 @@
             <div class="col-10 glide" >
                 <div class="container-sm glide__track" data-glide-el="track">
                     <div class="glide__slides">
-                        @foreach ($kegiatans as $kegiatan)
-                        <div class="card text-white bg-danger glide__slide h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ $kegiatan->nama_kegiatan }}</h5>
-                                <p class="card-text">{{ $kegiatan->deskripsi_kegiatan }}</p>
-                                <p><small>Oleh : {{ $kegiatan->penyelenggara }}</small></p>
-                                <a href="/kegiatans/{{ $kegiatan->id }}" class="btn btn-primary">Kelola</a>
+                        @if (!$kegiatans->isEmpty())                            
+                            @foreach ($kegiatans as $kegiatan)
+                            <div class="card text-white bg-danger glide__slide h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ $kegiatan->nama_kegiatan }}</h5>
+                                    <p class="card-text">{{ $kegiatan->deskripsi_kegiatan }}</p>
+                                    <p><small>Oleh : {{ $kegiatan->penyelenggara }}</small></p>
+                                    <a href="/kegiatans/{{ $kegiatan->id }}" class="btn btn-primary">Kelola</a>
+                                </div>
                             </div>
-                        </div>
-                        @endforeach
+                            @endforeach
+                        @else
+                            <div class="card bg-white glide__slide h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Tidak Ada Kegiatan Diikuti</h5>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="glide__arrows" data-glide-el="controls">
